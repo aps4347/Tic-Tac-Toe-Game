@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to draw the tic-tac-toe board
+void draw_board(vector<char> board) {
+    cout << " " << board[0] << " | " << board[1] << " | " << board[2] << endl;
+    cout << "-----------" << endl;
+    cout << " " << board[3] << " | " << board[4] << " | " << board[5] << endl;
+    cout << "-----------" << endl;
+    cout << " " << board[6] << " | " << board[7] << " | " << board[8] << endl;
+}
+
+// Function to check if someone has won
+bool check_win(vector<char> board, char player) {
+    // Check rows
+    if ((board[0] == player && board[1] == player && board[2] == player) ||
+        (board[3] == player && board[4] == player && board[5] == player) ||
+        (board[6] == player && board[7] == player && board[8] == player)) {
+        return true;
+    }
+    // Check columns
+    else if ((board[0] == player && board[3] == player && board[6] == player) ||
+             (board[1] == player && board[4] == player && board[7] == player) ||
+             (board[2] == player && board[5] == player && board[8] == player)) {
+        return true;
+    }
+    // Check diagonals
+    else if ((board[0] == player && board[4] == player && board[8] == player) ||
+             (board[2] == player && board[4] == player && board[6] == player)) {
+        return true;
+    }
+    // If no win condition is met, return false
+    else {
+        return false;
+    }
+}
+
+int main() {
+    vector<char> board(9, ' ');
+    int turn = 0;
+    char player = 'X';
+    while (true) {
+        draw_board(board);
+        int move;
+        cout << "Player " << player << ", enter your move (1-9): ";
+        cin >> move;
+        if (move < 1 || move > 9) {
+            cout << "Invalid move. Please enter a number between 1 and 9." << endl;
+            continue;
+        }
+        if (board[move-1] != ' ') {
+            cout << "That space is already occupied. Please choose another move." << endl;
+            continue;
+        }
+        board[move-1] = player;
+        if (check_win(board, player)) {
+            cout << "Player " << player << " wins!" << endl;
+            break;
+        }
+        turn++;
+        if (turn == 9) {
+            cout << "It's a tie!" << endl;
+            break;
+        }
+        player = (player == 'X') ? 'O' : 'X';
+    }
+    draw_board(board);
+    return 0;
+}
